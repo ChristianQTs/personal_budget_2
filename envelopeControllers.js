@@ -66,7 +66,7 @@ export async function transferBudget (req, res, next)  {
         return next(err)
     }
     else {
-        const amount = req.body.amount
+        const amount = Number(req.body.amount)
         if (amount > fromEnv.budget) {
             const err = new Error(`Select an amount lower than ${fromEnv.budget}.`)
             err.status = 400
