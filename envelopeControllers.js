@@ -1,36 +1,19 @@
-import express from 'express'
-const app = express()
-import cors from 'cors'
-app.use(cors())
-app.use(express.json())
 import { sequelize, Envelope, Transaction } from './db.js'
 
 
 
 
-//check envelope exists by envelope name
-app.param('envName', async (req, res, next, envName) => {
-    const envelope = await Envelope.findOne({ where: { name: envName } })
-    if (!envelope) {
-        const err = new Error('Envelope does not exist.')
-        err.status = 404
-        return next(err)
-    } else {
-        req.envelope = envelope
-        next()
-    }
-})
+
 //get envelopes names only
-export function getEnvNames () {( async (req, res) => {
+export async function getEnvNames (req, res)  {
     const names = await Envelope.findAll({
         attributes: ['name']
     })
-
     res.json(names)
-})}
+}
 
 //get all envelopes
-export function getAllEnvs () {( async (req, res, next) => {
+export async function getAllEnvs (req, res, next)  {
     const envelopes = await Envelope.findAll()
     if (!envelopes) {
         const err = new Error('No envelope found.')
@@ -38,15 +21,14 @@ export function getAllEnvs () {( async (req, res, next) => {
         return next(err)
     }
     res.status(200).json(envelopes)
-})}
+}
 
 //get envelope by name
-export function getSingleEnv () {( (req, res, next) => {
+export async function getSingleEnv (req, res, next)  {
     res.status(200).json(req.envelope)
-})
 }
 //create new envelope
-export function createEnv () {( async (req, res, next) => {
+export async function createEnv  (req, res, next)  {
     if (!req.body.name || !req.body.budget) {
         const err = new Error('Provide both the name and budget of the new envelope.')
         err.status = 400
@@ -68,10 +50,9 @@ export function createEnv () {( async (req, res, next) => {
          
      } */
     res.status(201).json({ message: 'New envelope created.' })
-})
 }
 //Transfer budget between two envelopes
-export function transferBudget () {( async (req, res, next) => {
+export async function transferBudget (req, res, next)  {
     const fromEnv = await Envelope.findOne({ where: { name: req.params.from } })
     const toEnv = await Envelope.findOne({ where: { name: req.params.to } })
     if (!fromEnv || !toEnv) {
@@ -98,10 +79,10 @@ export function transferBudget () {( async (req, res, next) => {
             res.status(200).json({ message: `${amount} transferred from "${req.params.from}" to "${req.params.to}".` })
         }
     }
-})}
+}
 
 //withdraw from an envelope
-export function withdrawFromEnv () {( async (req, res, next) => {
+export async function withdrawFromEnv (req, res, next)  {
     const amount = Number(req.body.amount)
     const recipient = req.body.recipient
 
@@ -120,10 +101,10 @@ export function withdrawFromEnv () {( async (req, res, next) => {
     //save to transactions table:
     await Transaction.create({ envelope_name: req.envelope.name, amount, recipient, date: Date.now() })
     res.status(200).json({ message: `Envelope updated. ` })
-})}
+}
 //delete envelope
-export function deleteEnv () {( async (req, res, next) => {
+export async function deleteEnv (req, res, next)  {
     await req.envelope.destroy()
     res.status(204).json({ message: 'Envelope deleted successfully.' })
 
-})}
+}

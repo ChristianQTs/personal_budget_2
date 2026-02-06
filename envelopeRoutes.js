@@ -3,6 +3,19 @@ import { getEnvNames, getAllEnvs, getSingleEnv, createEnv, transferBudget, withd
 
 const envRouter = express.Router()
 
+//check envelope exists by envelope name
+envRouter.param('envName', async (req, res, next, envName) => {
+    const envelope = await Envelope.findOne({ where: { name: envName } })
+    if (!envelope) {
+        const err = new Error('Envelope does not exist.')
+        err.status = 404
+        return next(err)
+    } else {
+        req.envelope = envelope
+        next()
+    }
+})
+
 envRouter.get('/names', getEnvNames)
 envRouter.get('/', getAllEnvs)
 envRouter.get('/:envName', getSingleEnv)
