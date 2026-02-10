@@ -20,9 +20,9 @@ envRouter.param('envName', async (req, res, next, envName) => {
 envRouter.get('/names', getEnvNames)
 envRouter.get('/', getAllEnvs)
 envRouter.get('/:envName', getSingleEnv)
-envRouter.post('/', createEnv)
+envRouter.post('/newEnv', createEnv)
 envRouter.put('/:envName/withdraw', withdrawFromEnv)
 envRouter.put('/:from/:to', transferBudget)
-envRouter.delete('/:envName', deleteEnv)
+envRouter.delete('/:envName/delete', deleteEnv)
 
 export  {envRouter}
