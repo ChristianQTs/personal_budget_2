@@ -1,0 +1,127 @@
+openapi: 3.0.4
+info:
+  title: Personal Budget API
+  description: API for managing budgeting envelopes and related transactions
+  version: 0.1.9
+
+servers:
+  - url: http://localhost:3000/personalBudget/
+    description: Optional server description, e.g. Main (production) server
+paths:
+  /personalBudget/names:
+    get:
+      summary: Returns a list of envelope names.
+      description: list of envelope names.
+      responses:
+        "200": # status code
+          description: A JSON array of envelope names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string.
+  /personalBudget/:
+    get:
+      summary: Returns a list of all envelopes.
+      description: list of envelopes.
+      responses:
+        "200": # status code
+          description: A JSON array of envelope 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /personalBudget/:envName:
+    get:
+      summary: Returns a single envelope.
+      description: envelope object.
+      responses:
+        "200": # status code
+          description: A JSON object
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /personalBudget/newEnv:
+    post:
+      summary: Creates a new envelope.
+      description: Creates a new envelope.
+      responses:
+        "201": # status code
+          description: New envelope creation
+          content:
+            application/json:
+              schema:
+                type: 
+                items:
+                  type: none
+  /personalBudget/:envName/withdraw:
+    put:
+      summary: Withdraw amount from an envelope
+      description: Withdraw amount specified in request body from envelope specified in request URL.
+      responses:
+        "200": # status code
+          description: Amount withdrawal
+          content:
+            application/json:
+              schema:
+                type: 
+                items:
+                  type:  none
+  /personalBudget/:from/:to:
+    put:
+      summary: Transfer budget between two envelopes
+      description: Transfer amount specified in request body from envelope in first URL parameter to envelope in second URL parameter
+      responses:
+        "200": # status code
+          description: Amount transfer
+          content:
+            application/json:
+              schema:
+                type: 
+                items:
+                  type:  none 
+  /personalBudget/:envName/delete:
+    delete:
+      summary: deletes an envelope
+      description: Deletes the envelope specified in URL parameters
+      responses:
+        "204": # status code
+          description: Envelope deletion
+          content:
+            application/json:
+              schema:
+                type: 
+                items:
+                  type:  none
+  /personalBudget/:envName/transactions:
+      get:
+      summary: Get all transactions by envelope
+      description: Get all transactions associated with envelope specified in :envName parameter
+      responses:
+        "200": # status code
+          description: Envelope Transactions Retrieval
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type:  string 
+  /personalBudget/:id/transactions:
+      delete:
+      summary: delete a single envelope
+      description: delete transaction by ID specified in :id parameter
+      responses:
+        "204": # status code
+          description: Envelope Transactions Removal
+          content:
+            application/json:
+              schema:
+                type: 
+                items:
+                  type:  none
