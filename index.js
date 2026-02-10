@@ -5,8 +5,11 @@ import cors  from 'cors'
 app.use(cors())
 app.use(express.json())
 import { envRouter } from './envelopeRoutes.js'
+import { transactionRouter } from './transactionRoutes.js'
 
 app.use('/personalBudget', envRouter)
+app.use('/personalBudget', transactionRouter)
+
 app.use((err, req, res, next) => {
     const status = err.status || 500
     res.status(status).json({ message: `Error ${status} : ${err.message}` })
