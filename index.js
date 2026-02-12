@@ -1,4 +1,5 @@
 // JavaScript source code
+import 'dotenv/config'
 import express from 'express'
 const app = express()
 import cors  from 'cors'
@@ -18,4 +19,5 @@ app.use((err, req, res, next) => {
     const status = err.status || 500
     res.status(status).json({ message: `Error ${status} : ${err.message}` })
 })
+
 app.listen(PORT,'0.0.0.0', () => console.log('Server listening on port 3000...'))
