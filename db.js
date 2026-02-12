@@ -1,18 +1,21 @@
 // JavaScript source code
 import { Sequelize, DataTypes, Model } from 'sequelize';
-
+import 'dotenv/config'
 export class Envelope extends Model { }
 export class Transaction extends Model { }
 
 export const sequelize = new Sequelize(
-    'personal_budget',
-    'postgres',
-    'postgres',
+    process.env.DATABASE_URL,
     {
-        host: 'localhost',
         port: 5432,
         dialect: 'postgres',
-        logging: false
+        logging: false,
+        dialectOptions: {
+            ssl: {
+                require: true,
+                rejectUnauthorized : false
+            }
+        }
     }
 );
 
