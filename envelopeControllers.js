@@ -15,7 +15,7 @@ export async function getEnvNames (req, res)  {
 //get all envelopes
 export async function getAllEnvs (req, res, next)  {
     const envelopes = await Envelope.findAll()
-    if (!envelopes) {
+    if (envelopes.length == 0) {
         const err = new Error('No envelope found.')
         err.status = 404
         return next(err)
