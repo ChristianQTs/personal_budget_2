@@ -1,8 +1,8 @@
 // JavaScript source code
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import 'dotenv/config'
-export class Envelope extends Model { }
-export class Transaction extends Model { }
+class Envelope extends Model { }
+class Transaction extends Model { }
 
 export const sequelize = new Sequelize(
     process.env.DATABASE_URL,
@@ -72,3 +72,5 @@ Transaction.init(
     }
 
 )
+
+export {Model, Transaction }
