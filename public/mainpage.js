@@ -1,6 +1,11 @@
 const inputDiv = document.getElementById('inputDiv')
 const outputDiv = document.getElementById('outputDiv')
 
+const clearDivs = () => {
+    inputDiv.innerHTML =''
+    outputDiv.innerHTML = ''
+
+}
 
 const fetchAllEnvelopes = async () => {
     const URL = `${window.location.origin}/personalBudget/envelopes`
@@ -14,7 +19,7 @@ const fetchAllEnvelopes = async () => {
                     const envelope = document.createElement('div')
                     for (let field in env) {
                         const newLine = document.createElement('h2')
-                        newLine.textContent = `${field} : ${env.field}`
+                        newLine.textContent = `${field} : ${env[field]}`
                         envelope.appendChild(newLine)
                     }
                     outputDiv.appendChild(envelope)
@@ -23,12 +28,12 @@ const fetchAllEnvelopes = async () => {
                 window.alert(json.message)
             }
         } catch (err) {
-            console.log(err)
             window.alert(err.message)
         }
 }
 
 const createNewEnvForm = () => {
+    clearDivs()
     const nameLabel = document.createElement('label')
     const budgetLabel = document.createElement('label')
 
