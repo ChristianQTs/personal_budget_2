@@ -48,7 +48,7 @@ Transaction.init(
         envelope_name: {
             type: DataTypes.STRING,
             references: {
-                model: 'Envelope',
+                model: Envelope,
                 key : 'name'
             }
         },
@@ -73,4 +73,4 @@ Transaction.init(
 
 )
 
-export {Model, Transaction }
+export { Envelope, Transaction }
