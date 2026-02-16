@@ -15,6 +15,7 @@ const fetchAllEnvelopes = async () => {
             const json = await response.json()
 
             if (response.ok) {
+                clearDivs()
                 for (let env of json) {
                     const envelope = document.createElement('div')
                     for (let field in env) {
