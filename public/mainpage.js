@@ -93,10 +93,51 @@ const createNewEnvForm = () => {
 
 }
 
+const deleteEnvelope = () => {
+    clearDivs()
+
+    const envLabel = document.createElement('label')
+    envLabel.textContent = 'Envelope to delete: '
+    envLabel.setAttribute('for', 'envInput')
+
+    const envInput = document.createElement('input')
+    envInput.id = 'envInput'
+    envInput.type = 'text'
+
+    inputDiv.appendChild(envLabel)
+    inputDiv.appendChild(envInput)
+
+    const confirmDeleteBTN = document.createElement('button')
+    confirmDeleteBTN.id = 'confirmDeleteBTN'
+    confirmDeleteBTN.textContent = 'Confirm'
+    inputDiv.appendChild(confirmDeleteBTN)
+
+    confirmDeleteBTN.addEventListener('click', async () => {
+
+        const URL = `${window.location.origin}/envelopes/${envInput.value}/delete`
+        try {
+            const response = await fetch(URL)
+            const json = await response.json()
+
+            if (response.ok) {
+                const newLine = document.createElement('h2')
+                newLine.textContent = json.message
+                outputDiv.appendChild(newLine)
+            } else {
+                window.alert(json.message)
+            }
+        } catch (err) {
+            window.alert(err.message)
+        }
+    })
+}
 document.addEventListener('DOMContentLoaded', () => {
     const getAllEnvsButton = document.getElementById('allEnvsBTN')
     getAllEnvsButton.addEventListener('click', fetchAllEnvelopes)
 
     const newEnvButton = document.getElementById('newEnvBtn')
     newEnvButton.addEventListener('click', createNewEnvForm)
+
+    const deleteButton = document.getElementById('deleteEnvBtn')
+    deleteButton.addEventListener('click', deleteEnvelope)
 })
