@@ -114,8 +114,9 @@ const deleteEnvelope = () => {
 
     confirmDeleteBTN.addEventListener('click', async () => {
 
-        const URL = `${window.location.origin}/envelopes/${envInput.value}/delete`
+        const URL = `${window.location.origin}/personalBudget/envelopes/${envInput.value}/delete`
         try {
+
             const response = await fetch(URL)
             const json = await response.json()
 
