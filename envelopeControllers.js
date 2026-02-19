@@ -105,6 +105,6 @@ export async function withdrawFromEnv (req, res, next)  {
 //delete envelope
 export async function deleteEnv (req, res, next)  {
     await req.envelope.destroy()
-    res.status(204).json({ message: 'Envelope deleted successfully.' })
+    res.status(200).json({ message: 'Envelope deleted successfully.' })
 
 }
