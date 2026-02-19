@@ -117,7 +117,9 @@ const deleteEnvelope = () => {
         const URL = `${window.location.origin}/personalBudget/envelopes/${envInput.value}/delete`
         try {
 
-            const response = await fetch(URL)
+            const response = await fetch(URL, {
+                method : 'DELETE'
+            })
             const json = await response.json()
 
             if (response.ok) {
