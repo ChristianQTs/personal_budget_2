@@ -7,6 +7,15 @@ const clearDivs = () => {
 
 }
 
+const createConfirmationButton = (buttonText) => {
+    const newButton = document.createElement('button')
+    newButton.textContent = buttonText
+    newButton.id = `${buttonText.toLowerCase()}Button`
+    inputDiv.appendChild(newButton)
+
+    return newButton
+}
+
 const fetchAllEnvelopes = async () => {
     const URL = `${window.location.origin}/personalBudget/envelopes`
 
@@ -58,12 +67,9 @@ const createNewEnvForm = () => {
     inputDiv.appendChild(budgetLabel)
     inputDiv.appendChild(budgetInput)
 
-    const createButton = document.createElement('button')
-    createButton.textContent = 'Create'
-    createButton.id = 'createButton'
-    inputDiv.appendChild(createButton)
+    confirmCreateButton = createConfirmationButton('Create')
 
-    createButton.addEventListener('click', async () => {
+    confirmCreateButton.addEventListener('click', async () => {
         const URL = `${window.location.origin}/personalBudget/envelopes/newEnv`
         try {
             const response = await fetch(URL, {
@@ -107,10 +113,7 @@ const deleteEnvelope = () => {
     inputDiv.appendChild(envLabel)
     inputDiv.appendChild(envInput)
 
-    const confirmDeleteBTN = document.createElement('button')
-    confirmDeleteBTN.id = 'confirmDeleteBTN'
-    confirmDeleteBTN.textContent = 'Confirm'
-    inputDiv.appendChild(confirmDeleteBTN)
+    const confirmDeleteBTN = createConfirmationButton('Delete')
 
     confirmDeleteBTN.addEventListener('click', async () => {
 
@@ -134,6 +137,77 @@ const deleteEnvelope = () => {
         }
     })
 }
+
+const withdraw = () => {
+
+    clearDivs()
+
+    const envelopeLabel = document.createElement('label')
+    envelopeLabel.textContent = 'Withdraw from: '
+    envelopeLabel.setAttribute('for', 'envelopeInput')
+
+    const envelopeInput = document.createElement('input')
+    envelopeInput.id = 'envelopeInput'
+    envelopeInput.type = 'text'
+
+    const amountLabel = document.createElement('label')
+    amountLabel.textContent = 'Amount: '
+    amountLabel.setAttribute('for', 'amountInput')
+
+    const amountInput = document.createElement('input')
+    amountInput.id = 'amountInput'
+    amountInput.type = 'number'
+
+    const recipientLabel = document.createElement('label')
+    recipientLabel.textContent = 'Recipient: '
+    recipientLabel.setAttribute('for', 'recipientInput')
+
+    const recipientInput = document.createElement('input')
+    recipientInput.id = 'recipientInput'
+    recipientInput.type = 'text'
+
+    inputDiv.appendChild(envelopeLabel)
+    inputDiv.appendChild(envelopeInput)
+    inputDiv.appendChild(document.createElement('br'))
+    inputDiv.appendChild(amountLabel)
+    inputDiv.appendChild(amountInput)
+    inputDiv.appendChild(document.createElement('br'))
+    inputDiv.appendChild(recipientLabel)
+    inputDiv.appendChild(recipientInput)
+
+    const confirmWithdrawBTN = createConfirmationButton('Withdraw')
+    
+    confirmWithdrawBTN.addEventListener('click', async  () => {
+
+        const URL = `${window.location.origin}/personalBudget/envelopes/${envelopeInput.value}/withdraw`
+
+        try {
+            response = await fetch(URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: {
+                    amount: amountInput.value,
+                    recipient: recipientInput.value
+                }
+            })
+
+            const json = await response.json()
+
+            if (response.ok) {
+                const newLine = document.createElement('h2')
+                newLine.textContent = json.message
+                outputDiv.appendChild(newLine)
+            } else {
+                window.alert(json.message)
+            }
+        } catch (err) {
+            window.alert(err.message)
+        }
+    })
+
+}
 document.addEventListener('DOMContentLoaded', () => {
     const getAllEnvsButton = document.getElementById('allEnvsBTN')
     getAllEnvsButton.addEventListener('click', fetchAllEnvelopes)
@@ -143,4 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const deleteButton = document.getElementById('deleteEnvBtn')
     deleteButton.addEventListener('click', deleteEnvelope)
+
+    const withdrawButton = document.getElementById('withdrawBtn')
+    withdrawButton.addEventListener('click', withdraw)
 })
