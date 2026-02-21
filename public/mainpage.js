@@ -187,10 +187,10 @@ const withdraw = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: {
+                body: JSON.stringify({
                     amount: amountInput.value,
                     recipient: recipientInput.value
-                }
+                })
             })
 
             const json = await response.json()
