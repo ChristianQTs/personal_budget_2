@@ -32,7 +32,10 @@ Envelope.init(
             type: DataTypes.FLOAT
         },
         balance: {
-            type: DataTypes.FLOAT
+            type: 'DOUBLE PRECISION GENERATED ALWAYS AS (budget - spent) STORED',
+            set() {
+                throw new Error('generatedValue is read-only')
+            }
         }
     },
     {
