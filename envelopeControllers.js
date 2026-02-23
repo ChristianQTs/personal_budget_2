@@ -97,6 +97,7 @@ export async function withdrawFromEnv (req, res, next)  {
         return next(err)
     }
     req.envelope.spent += amount
+    req.envelope.balance -= amount
     await req.envelope.save()
     //save to transactions table:
     await Transaction.create({ envelope_name: req.envelope.name, amount, recipient, date: Date.now() })
