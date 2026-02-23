@@ -35,10 +35,7 @@ Envelope.init(
             allowNull: false
         },
         balance: {
-            type: 'DOUBLE PRECISION GENERATED ALWAYS AS (budget - spent) STORED',
-            set() {
-                throw new Error('generatedValue is read-only')
-            },
+            type: DataTypes.FLOAT,
             allowNull: false
         }
     },
@@ -46,7 +43,16 @@ Envelope.init(
         sequelize,
         modelName: 'Envelope',
         tableName: 'envelopes',
-        timestamps: false
+        timestamps: false,
+        hooks: {
+            beforeValidate: (envelope) => {
+                const budget = Number(envelope.budget) || 0
+                const spent = Number(envelope.spent) || 0
+
+                envelope.spent = spent
+                envelope.balance = budget - spent
+            }
+        }
     }
 );
 
