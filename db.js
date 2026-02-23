@@ -23,19 +23,23 @@ Envelope.init(
     {
         name: {
             type: DataTypes.STRING,
-            primaryKey: true
+            primaryKey: true,
+            allowNull : false
         },
         budget: {
-            type: DataTypes.FLOAT
+            type: DataTypes.FLOAT,
+            allowNull: false
         },
         spent: {
-            type: DataTypes.FLOAT
+            type: DataTypes.FLOAT,
+            allowNull: false
         },
         balance: {
             type: 'DOUBLE PRECISION GENERATED ALWAYS AS (budget - spent) STORED',
             set() {
                 throw new Error('generatedValue is read-only')
-            }
+            },
+            allowNull: false
         }
     },
     {

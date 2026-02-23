@@ -74,8 +74,8 @@ export async function transferBudget (req, res, next)  {
         } else {
             fromEnv.budget -= amount
             toEnv.budget += amount
-            await fromEnv.save({ fields: ['budget'] })
-            await toEnv.save({ fields: ['budget'] })
+            await fromEnv.save()
+            await toEnv.save()
             res.status(200).json({ message: `${amount} transferred from "${req.params.from}" to "${req.params.to}".` })
         }
     }
@@ -97,7 +97,7 @@ export async function withdrawFromEnv (req, res, next)  {
         return next(err)
     }
     req.envelope.spent += amount
-    await req.envelope.save({ fields: ['spent'] })
+    await req.envelope.save()
     //save to transactions table:
     await Transaction.create({ envelope_name: req.envelope.name, amount, recipient, date: Date.now() })
     res.status(200).json({ message: `Envelope updated. ` })
