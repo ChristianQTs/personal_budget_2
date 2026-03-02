@@ -104,8 +104,12 @@ export async function withdrawFromEnv (req, res, next)  {
     res.status(200).json({ message: `Envelope updated. ` })
 }
 //delete envelope
-export async function deleteEnv (req, res, next)  {
+export async function deleteEnv(req, res, next) {
+    //delete envelope related transactions:
+    await Transaction.destroy({ where: { envelope_name: req.envelope.name } })
+    //delete envelope:
     await req.envelope.destroy()
     res.status(200).json({ message: 'Envelope deleted successfully.' })
+
 
 }

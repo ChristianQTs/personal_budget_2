@@ -44,15 +44,6 @@ Envelope.init(
         modelName: 'Envelope',
         tableName: 'envelopes',
         timestamps: false,
-        hooks: {
-            beforeValidate: (envelope) => {
-                const budget = Number(envelope.budget) || 0
-                const spent = Number(envelope.spent) || 0
-
-                envelope.spent = spent
-                envelope.balance = budget - spent
-            }
-        }
     }
 );
 
