@@ -208,6 +208,28 @@ const withdraw = () => {
     })
 
 }
+
+const deleteAllEnv = async () => {
+
+    const URL = `${window.location.origin}/personalBudget/envelopes/delete_all`
+
+    try {
+
+        const response = await fetch(URL, {
+            method: 'DELETE'
+        })
+        const json = await response.json()
+
+        if (!response.ok) window.alert(json.message)
+
+        const newLine = document.createElement('h2')
+        newLine.textContent = 'All envelopes deleted successfully.'
+        outputDiv.appendChild(newLine)
+
+    } catch (err) {
+        window.alert(err.message)
+    }
+}
 document.addEventListener('DOMContentLoaded', () => {
     const getAllEnvsButton = document.getElementById('allEnvsBTN')
     getAllEnvsButton.addEventListener('click', fetchAllEnvelopes)
@@ -220,4 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const withdrawButton = document.getElementById('withdrawBtn')
     withdrawButton.addEventListener('click', withdraw)
+
+    const deleteAllEnvButton = document.getElementById('deleteAllEnv')
+    deleteAllEnvButton.addEventListener('click', deleteAllEnv)
 })

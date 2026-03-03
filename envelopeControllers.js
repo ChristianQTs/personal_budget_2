@@ -38,7 +38,8 @@ export async function createEnv  (req, res, next)  {
 
         name: (req.body.name).toLowerCase(),
         budget: Number(req.body.budget),
-        spent: 0
+        spent: 0,
+        balance : 0
 
     })
     /* if (calculateTotalPlannedBudget() + newEnvelope.budget > totalBudget) {
@@ -112,4 +113,9 @@ export async function deleteEnv(req, res, next) {
     res.status(200).json({ message: 'Envelope deleted successfully.' })
 
 
+}
+//delete all envelopes
+export async function deleteAllEnv(req, res, next) {
+    await Envelope.truncate()
+    res.status(204).send()
 }

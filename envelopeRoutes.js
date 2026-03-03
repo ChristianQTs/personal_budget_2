@@ -1,6 +1,6 @@
 import express from 'express'
 import {Envelope} from './db.js'
-import { getEnvNames, getAllEnvs, getSingleEnv, createEnv, transferBudget, withdrawFromEnv, deleteEnv } from './envelopeControllers.js'
+import { getEnvNames, getAllEnvs, getSingleEnv, createEnv, transferBudget, withdrawFromEnv, deleteEnv, deleteAllEnv } from './envelopeControllers.js'
 
 const envRouter = express.Router()
 
@@ -24,5 +24,6 @@ envRouter.post('/newEnv', createEnv)
 envRouter.put('/:envName/withdraw', withdrawFromEnv)
 envRouter.put('/:from/:to', transferBudget)
 envRouter.delete('/:envName/delete', deleteEnv)
+envRouter.delete('/delete_all', deleteAllEnv)
 
 export  {envRouter}
