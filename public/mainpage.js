@@ -220,11 +220,15 @@ const deleteAllEnv = async () => {
         })
         const json = await response.json()
 
-        if (!response.ok) window.alert(json.message)
+        if (response.ok) {
 
-        const newLine = document.createElement('h2')
-        newLine.textContent = 'All envelopes deleted successfully.'
-        outputDiv.appendChild(newLine)
+            const newLine = document.createElement('h2')
+            newLine.textContent = 'All envelopes deleted successfully.'
+            outputDiv.appendChild(newLine)
+        } else {
+
+            window.alert(json.message)
+        }
 
     } catch (err) {
         window.alert(err.message)

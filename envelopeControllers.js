@@ -117,5 +117,5 @@ export async function deleteEnv(req, res, next) {
 //delete all envelopes
 export async function deleteAllEnv(req, res, next) {
     await sequelize.query('TRUNCATE TABLE envelopes CASCADE;')
-    res.status(204).send()
+    res.status(204).json()
 }
