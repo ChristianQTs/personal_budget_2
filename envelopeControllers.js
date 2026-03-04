@@ -74,7 +74,9 @@ export async function transferBudget (req, res, next)  {
             return next(err)
         } else {
             fromEnv.budget -= amount
+            fromEnv.balance -= amount
             toEnv.budget += amount
+            toEnv.balance += amount
             await fromEnv.save()
             await toEnv.save()
             res.status(200).json({ message: `${amount} transferred from "${req.params.from}" to "${req.params.to}".` })
