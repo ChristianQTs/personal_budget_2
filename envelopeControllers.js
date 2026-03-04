@@ -116,7 +116,7 @@ export async function deleteEnv(req, res, next) {
 }
 //delete all envelopes
 export async function deleteAllEnv(req, res, next) {
-    const exists = await Envelope.findOne({ attributes: ['id'] })
+    const exists = await Envelope.findOne({ attributes: ['name'] })
     if (exists) {
         await sequelize.query('TRUNCATE TABLE envelopes CASCADE;')
         res.status(200).json({ message: 'All envelopes deleted successfully.' })
