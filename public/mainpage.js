@@ -84,6 +84,7 @@ const createNewEnvForm = () => {
             })
             const json = await response.json()
             if (response.ok) {
+                clearDivs()
                 const newLine = document.createElement('h2')
                 newLine.textContent = json.message
                 outputDiv.appendChild(newLine)
@@ -218,10 +219,17 @@ const deleteAllEnv = async () => {
         const response = await fetch(URL, {
             method: 'DELETE'
         })
+        const json = await response.json()
 
-        const newLine = document.createElement('h2')
-        newLine.textContent = 'All envelopes deleted successfully.'
-        outputDiv.appendChild(newLine)
+        if (response.ok) {
+
+            clearDivs()
+            const newLine = document.createElement('h2')
+            newLine.textContent = json.message
+            outputDiv.appendChild(newLine)
+        } else {
+            window.alert(json.message)
+        }
 
     } catch (err) {
         window.alert(err.message)

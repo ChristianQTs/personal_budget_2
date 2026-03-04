@@ -39,7 +39,7 @@ export async function createEnv  (req, res, next)  {
         name: (req.body.name).toLowerCase(),
         budget: Number(req.body.budget),
         spent: 0,
-        balance : 0
+        balance: req.body.budget
 
     })
     /* if (calculateTotalPlannedBudget() + newEnvelope.budget > totalBudget) {
@@ -116,6 +116,14 @@ export async function deleteEnv(req, res, next) {
 }
 //delete all envelopes
 export async function deleteAllEnv(req, res, next) {
-    await sequelize.query('TRUNCATE TABLE envelopes CASCADE;')
-    res.status(204).json()
+    const exists = await Envelope.findOne({ attributes: ['id'] })
+    if (exists) {
+        await sequelize.query('TRUNCATE TABLE envelopes CASCADE;')
+        res.status(200).json({ message: 'All envelopes deleted successfully.' })
+    } else {
+        const err = new Error('No envelope found.')
+        err.status = 404
+        return next(err)
+    }
+    
 }
