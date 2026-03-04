@@ -218,17 +218,10 @@ const deleteAllEnv = async () => {
         const response = await fetch(URL, {
             method: 'DELETE'
         })
-        const json = await response.json()
 
-        if (response.ok) {
-
-            const newLine = document.createElement('h2')
-            newLine.textContent = 'All envelopes deleted successfully.'
-            outputDiv.appendChild(newLine)
-        } else {
-
-            window.alert(json.message)
-        }
+        const newLine = document.createElement('h2')
+        newLine.textContent = 'All envelopes deleted successfully.'
+        outputDiv.appendChild(newLine)
 
     } catch (err) {
         window.alert(err.message)
