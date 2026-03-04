@@ -235,6 +235,75 @@ const deleteAllEnv = async () => {
         window.alert(err.message)
     }
 }
+
+const transfer = () => {
+    clearDivs()
+
+    const fromEnvLabel = document.createElement('label')
+    const fromEnvInput = document.createElement('input')
+    fromEnvInput.id = 'fromEnvInput'
+    fromEnvInput.type = 'Text'
+    fromEnvLabel.textContent = 'From: '
+    fromEnvLabel.setAttribute('for', 'fromEnvInput')
+
+    const toEnvLabel = document.createElement('label')
+    const toEnvInput = document.createElement('input')
+    toEnvInput.id = 'toEnvInput'
+    toEnvInput.type = 'Text'
+    toEnvLabel.textContent = 'To: '
+    toEnvLabel.setAttribute('for', 'toEnvInput')
+
+    const amountLabel = document.createElement('label')
+    const amountInput = document.createElement('input')
+    amountInput.id = 'amountInput'
+    amountInput.type = 'Number'
+    amountLabel.textContent = 'Amount: '
+    amountLabel.setAttribute('for', 'amountInput')
+
+    inputDiv.appendChild(fromEnvLabel)
+    inputDiv.appendChild(fromEnvInput)
+    inputDiv.appendChild(document.createElement('br'))
+    inputDiv.appendChild(toEnvLabel)
+    inputDiv.appendChild(toEnvInput)
+    inputDiv.appendChild(document.createElement('br'))
+    inputDiv.appendChild(amountLabel)
+    inputDiv.appendChild(amountInput)
+
+    const confirmTransferBTN = createConfirmationButton('Transfer')
+
+    confirmTransferBTN.addEventListener('click', async () => {
+
+        const URL = `${window.location.origin}/personalBudget/envelopes/${fromEnvInput.value}/${toEnvInput.value}`
+
+        try {
+
+            const response = await fetch(URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount = amountInput.value
+                })
+            })
+
+            const json = await response.json()
+
+            if (response.ok) {
+                const newLine = document.createElement('h2')
+                newLine.textContent = json.message
+                outputDiv.appendChild(newLine)
+            } else {
+                window.alert(json.message)
+            }
+        }
+        catch (err) {
+            window.alert(err.message)
+        }
+    })
+
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const getAllEnvsButton = document.getElementById('allEnvsBTN')
     getAllEnvsButton.addEventListener('click', fetchAllEnvelopes)
@@ -250,4 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const deleteAllEnvButton = document.getElementById('deleteAllEnv')
     deleteAllEnvButton.addEventListener('click', deleteAllEnv)
+
+    const transferBudgetButton = document.getElementById('transferBudget')
+    transferBudgetButton.addEventListener('click', transfer)
 })
