@@ -283,7 +283,7 @@ const transfer = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    amount = amountInput.value
+                    amount : amountInput.value
                 })
             })
 
